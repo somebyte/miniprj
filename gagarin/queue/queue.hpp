@@ -22,6 +22,8 @@ namespace gagarin
       queue (const queue&);
       queue& operator= (const queue&);
 
+    friend std::ostream& operator<< (std::ostream& stream, const queue& q);
+
     public:
       explicit queue (uint32_t limit = UINT_MAX)
         :m_limit(limit), m_size (0), m_head (nullptr), m_last (nullptr)
@@ -31,8 +33,8 @@ namespace gagarin
       void     push  (int32_t i);
       int32_t  pop   ();
       uint32_t size  () const { return m_size; };
-      void     print (std::ostream& stream = std::cout) const;
       void     clean ();
+
 
     private:
       uint32_t         m_limit;
@@ -40,6 +42,8 @@ namespace gagarin
       queue_member_ptr m_head;
       queue_member_ptr m_last;
   };
+
+  std::ostream& operator<< (std::ostream& stream, const queue& q);
 
   class queue_member
   {

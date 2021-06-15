@@ -2,6 +2,8 @@
 #include <iostream>
 
 using namespace gagarin;
+using std::cout;
+using std::endl;
 
 void info (const queue& q, uint32_t index);
 
@@ -49,9 +51,9 @@ int main (int argc, const char** argv)
 
 void info (const queue& q, uint32_t index)
 {
-  printf ("size%02u  = %d\n", index, q.size());
-  printf ("queue%02u = ", index);
-  q.print();
-  printf ("\n");
+  cout.fill  ('0');
+  cout.width (2);
+  cout << "size"  << cout.width() << index << " = " << q.size() << endl;
+  cout << "queue" << cout.width() << index << " = " << q << endl; 
 }
 
