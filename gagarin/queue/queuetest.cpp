@@ -1,3 +1,7 @@
+/*
+  Author: somebyte
+*/
+
 #include "queue.hpp"
 #include <iostream>
 

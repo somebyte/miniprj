@@ -1,3 +1,7 @@
+/*
+  Author: somebyte
+*/
+
 #include "queue.hpp"
 #include <stdint.h>
 #include <memory>
@@ -110,6 +114,7 @@ namespace gagarin
             else
              {
 /* may be need someone exception */
+               break;
              }
           }
       }
