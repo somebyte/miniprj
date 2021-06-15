@@ -58,12 +58,6 @@ namespace gagarin
   void
   queue::print (ostream& stream) const
   {
-     if (m_head == nullptr)
-       {
-         stream << "[]";
-         return;
-       }
-
      queue_member_ptr ptr = m_head;
      stream << "[";
      while (ptr)
