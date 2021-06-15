@@ -55,10 +55,10 @@ namespace gagarin
     return value;
   }
 
-  void
-  queue::print (ostream& stream) const
+  ostream&
+  operator<< (ostream& stream, const queue& q)
   {
-     queue_member_ptr ptr = m_head;
+     queue_member_ptr ptr = q.m_head;
      stream << "[";
      while (ptr)
        {
@@ -67,6 +67,8 @@ namespace gagarin
          stream << (ptr ? "," : "");
        }
      stream << "]";
+
+     return stream;
   }
 
   void

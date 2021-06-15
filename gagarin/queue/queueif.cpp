@@ -213,7 +213,7 @@ save_queue ()
       handle_err (QIF_FILEERR, filename);
     }
 
-  q[number].print (fout);  
+  fout<<q[number];  
 
   fout.close();
 }
@@ -248,9 +248,7 @@ push (int argc, const char** argv)
 void
 print (int argc, const char** argv)
 {
-  cout << "q" << " = ";
-  q[number].print();
-  cout << endl;
+  cout << "q" << " = " << q[number] << endl;
 }
 
 void
@@ -286,9 +284,7 @@ bit (int argc, const char** argv)
           bitq.push (el);
         } 
     }
-  cout << "q = ";
-  bitq.print ();
-  cout << endl;
+  cout << "q = " << bitq << endl;
   read_queue ();
 }
 
