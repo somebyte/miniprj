@@ -1,11 +1,15 @@
 #include "queue.hpp"
 #include <stdint.h>
 #include <memory>
+#include <string>
 #include <iostream>
+#include <sstream>
 
 namespace gagarin
 {
   using std::ostream;
+  using std::string;
+  using std::istringstream;
 
   void
   queue::push (int32_t i)
@@ -69,6 +73,48 @@ namespace gagarin
      stream << "]";
 
      return stream;
+  }
+
+  std::istream& operator>> (std::istream& stream, queue& q)
+  {
+    std::string str;
+
+    getline (stream, str);
+
+    size_t n, i;
+    char symbols[3] = { '[', ']', ',' };
+
+    for (i = 0; i < 2; ++i)
+      {
+        n = str.find (symbols[i]);
+        if (n != string::npos)
+          str.erase (n,1);
+      }
+
+    do
+      {
+        n = str.find (symbols[i]);
+        if (n != string::npos)
+          str.replace (n, 1, " ");
+      }
+    while (n != string::npos);
+
+    if (str.size())
+      {
+        istringstream ss (str);
+        while (!ss.eof())
+          {
+            int a;
+            if (ss >> a)
+              q.push (a);
+            else
+             {
+/* may be need someone exception */
+             }
+          }
+      }
+
+    return stream;
   }
 
   void

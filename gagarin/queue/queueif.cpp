@@ -166,41 +166,8 @@ read_queue()
       return;
     }
 
-  string str;
-
-  getline (fin, str);
-
-  size_t n, i;
-  char symbols[3] = { '[', ']', ',' };
-
-  for (i = 0; i < 2; ++i)
-    {
-      n = str.find (symbols[i]);
-      if (n != string::npos)
-        str.erase (n,1);
-    }
-
-  do
-    {
-      n = str.find (symbols[i]);
-      if (n != string::npos)
-        str.replace (n, 1, " ");
-    }
-  while (n != string::npos);
-
-  if (str.size())
-    {
-      istringstream ss (str);
-      while (!ss.eof())
-        {
-          int a;
-          if (ss >> a)
-            q[number].push (a);
-          else
-            handle_err (QIF_CONTERR, filename);
-        }
-    }  
-
+  fin >> q[number];
+  
   fin.close();
 }
 

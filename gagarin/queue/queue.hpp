@@ -35,7 +35,6 @@ namespace gagarin
       uint32_t size  () const { return m_size; };
       void     clean ();
 
-
     private:
       uint32_t         m_limit;
       uint32_t         m_size;
@@ -44,6 +43,7 @@ namespace gagarin
   };
 
   std::ostream& operator<< (std::ostream& stream, const queue& q);
+  std::istream& operator>> (std::istream& stream, queue& q);
 
   class queue_member
   {
