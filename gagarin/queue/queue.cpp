@@ -12,8 +12,11 @@
 namespace gagarin
 {
   using std::ostream;
+  using std::istream;
   using std::string;
   using std::istringstream;
+  using std::cout;
+  using std::endl;
 
   void
   queue::push (int32_t i)
@@ -51,14 +54,16 @@ namespace gagarin
         m_head = ptr->next();
         delete ptr;
         --m_size;
+        if (m_head == nullptr)
+          m_last = nullptr;
       }
     else
       {
 /* may be need someone exception */
+/* be ware exceptions cause method is used by the destructor */
+/* but only if pop () is used again after clearing */
+        cout << "# re-call pop()" << endl;
       }
-
-    if (m_head == nullptr)
-      m_last = nullptr;
 
     return value;
   }
@@ -79,7 +84,8 @@ namespace gagarin
      return stream;
   }
 
-  std::istream& operator>> (std::istream& stream, queue& q)
+  istream&
+  operator>> (istream& stream, queue& q)
   {
     std::string str;
 
@@ -125,13 +131,8 @@ namespace gagarin
   void
   queue::clean ()
   {
-    if (m_head == nullptr)
-      return;
-
     while (size())
-      {
-        pop();
-      }
+      pop();
   }
 
   queue::~queue ()

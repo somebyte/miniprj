@@ -47,7 +47,7 @@ int main (int argc, const char** argv)
   info (q, 7);
 
   // testing clean()
-  q.clean();
+  q.clean(); q.pop();
   info (q, 8);
 
   return 0;

@@ -2,7 +2,7 @@
 
 import os
 
-os.system ("./queuetest >> queuetesting.py")
+os.system ("./queuetest > queuetesting.py")
 
 import queuetesting
 
