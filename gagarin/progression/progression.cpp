@@ -19,19 +19,18 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-
 ofstream fout;
 mutex calc_mtx;
 mutex print_mtx;
-const size_t NMAX = 10001;
+const size_t NMAX = 10000;
 size_t N = NMAX;
-uint32_t n = 0;
+uint32_t n;
 
 void calc_progression (uint32_t id, ostream& out);
-void print (ostream& out, uint32_t id, uint32_t i, uint32_t value);
+void print (ostream& out, uint32_t id, uint32_t forn, uint32_t value);
 void reset();
 
-uint32_t GetNext();
+uint32_t GetNext (uint32_t & i);
 
 int main (int argc, const char** argv)
 {
@@ -60,7 +59,7 @@ int main (int argc, const char** argv)
               if (!(iss >> N))
                 {
                   cout << "error: number of iterations is wrong" << endl;
-                  cout << "N = 10001" << endl;
+                  cout << "N = " << NMAX << endl;
                   return 1;
                 }
             }
@@ -68,22 +67,22 @@ int main (int argc, const char** argv)
     }
 
   reset();
-  thread t1 ([](){ calc_progression(0, fout?fout:cout); });
-  thread t2 ([](){ calc_progression(1, fout?fout:cout); });
+  thread t1 ([](){ calc_progression(0, fout.is_open()?fout:cout); });
+  thread t2 ([](){ calc_progression(1, fout.is_open()?fout:cout); });
   t1.join();
   t2.join();
 
-  if (fout)
+  if (fout.is_open())
     fout.close();
 }
 
 uint32_t
-GetNext ()
+GetNext (uint32_t& i)
 {
   calc_mtx.lock();
-  uint32_t r = n++;
+  i = n++;
   calc_mtx.unlock();
-  return 2*r*r+3*r+5;
+  return 2*i*i+3*i+5;
 }
 
 void
@@ -94,16 +93,24 @@ reset()
 }
 
 void
-calc_progression(uint32_t id, ostream& out)
+calc_progression (uint32_t id, ostream& out)
 {
-  while (n < N)
-    print (out, id, n, GetNext());
+  uint32_t forn = n, result;
+
+  while (1)
+    {
+      result = GetNext (forn);
+      if (forn <= N)
+        print (out, id, forn, result);
+      else
+        break;
+    }
 }
 
 void
-print (ostream& out, uint32_t id, uint32_t i, uint32_t value)
+print (ostream& out, uint32_t id, uint32_t forn, uint32_t value)
 {
   lock_guard<mutex> lock (print_mtx);
-  out << "thread" << id << ": for n=" << i-1 << " P=" << value << endl;
+  out << "thread" << id << ": for n=" << forn << " P=" << value << endl;
 }
 
