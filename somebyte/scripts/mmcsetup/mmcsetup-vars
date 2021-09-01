@@ -1,0 +1,31 @@
+# COMMON
+RAM=2GB
+DISTR="/distr"
+CARD="mmc"
+SPL="${DISTR}/uboot-${RAM}-${CARD}/SPL"
+UBOOT="${DISTR}/uboot-${RAM}-${CARD}/u-boot.img"
+ROOTFS="${DISTR}/rootfs-"
+MODULES="modules"
+WMTYPE="X11"
+MOUNTPOINT="/run/media"
+ROOTFSARCH="rootfs.tar.bz2"
+
+# CMD
+SYNC="/bin/sync"
+TAR="/bin/tar"
+DD="/bin/dd"
+CPCMD="/bin/cp"
+RMCMD="/bin/rm"
+UMOUNT="/bin/umount"
+SFDISK="/usr/sbin/sfdisk"
+MKFS_FAT="/usr/sbin/mkfs.fat"
+MKFS_EXT="/sbin/mkfs.ext4"
+MMCU="/usr/bin/mmc"
+
+# MMC
+MMC="mmcblk3"
+MMCBOOT="${MMC}boot0"
+MMCDEV="/dev/${MMC}"
+MMCBOOTDEV="/dev/${MMCBOOT}"
+MMCBOOTCTL="/sys/block/${MMCBOOT}/force_ro"
+
