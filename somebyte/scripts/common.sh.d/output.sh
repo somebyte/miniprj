@@ -4,15 +4,15 @@
 # desc. : the script for including functions into a script to output info
 
 function error {
-  printf "\n\tERROR: $1\n" >&2
+  printf "ERROR: $1\n" >&2
 }
 
 function warning {
-  printf "\n\tWARNING: $1\n"
+  printf "WARNING: $1\n"
 }
 
 function info {
-  printf "\n\tINFO: $1\n"
+  printf "INFO: $1\n"
 }
 
 function println {
