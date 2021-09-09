@@ -1,6 +1,6 @@
 Simple scripting system for managing firmwares of mcu S32K144
 
-Program "uploader" you can find here:
+You can find the program "uploader" here:
 https://github.com/somebyte/S32K144ZENKIT/tree/main/linux
 
 ctrl.fw.sh    - main script to manage firmwares
