@@ -1,0 +1,24 @@
+Simple scripting system for managing firmwares of mcu S32K144
+
+Program "uploader" you can find here:
+https://github.com/somebyte/S32K144ZENKIT/tree/main/linux
+
+ctrl.fw.sh    - main script to manage firmwares
+ctrl.fw.vars  - global variables for ctrl.fw.sh
+ctrl.fw.funcs - functions for ctrl.fw.sh
+checks.sh     - the symbolic reference to ../common.sh.d/checks.sh
+output.sh     - the symbolic reference to ../common.sh.d/output.sh
+
+The principe of the system is squite simple:
+
+1. UPLOAD firmware from ctrl.fw.d/new
+
+2. if UPLOAD is fail then
+     copy firmware from ctrl.fw.d/new to ctrl.fw.d/fail
+     copy firmware from ctrl.fw.d/cur to ctrl.fw.d/new
+     copy firmware from ctrl.fw.d/old to ctrl.fw.d/cur
+     repeat 1.
+
+3. if UPLOAD is success then
+     copy firmware from ctrl.fw.d/cur to ctrl.fw.d/old
+     copy firmware from ctrl.fw.d/new to ctrl.fw.d/cur

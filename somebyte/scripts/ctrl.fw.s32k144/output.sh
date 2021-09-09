@@ -1,0 +1,1 @@
+../common.sh.d/output.sh
