@@ -33,7 +33,7 @@ println
 checkx ${TAR}       && checkx ${SYNC}     && checkx ${RMCMD}  && \
 checkx ${DD}        && checkx ${CPCMD}    && checkx ${SFDISK} && \
 checkx ${MKFS_FAT}  && checkx ${MKFS_EXT} && checkb ${MMCDEV} && \
-checkx ${MMCU}      && checkx ${UMOUNT}
+checkx ${MMCU}      && checkx ${MOUNT}    && checkx ${UMOUNT}
 
 if [ $? -eq 1 ]; then
   fail
@@ -77,10 +77,14 @@ ${SFDISK} ${MMCDEV} << EOF
 EOF
 fi
 
-checkb ${MMCDEV}p1 && checkb ${MMCDEV}p2
+${SYNC} && checkb ${MMCDEV}p1 && checkb ${MMCDEV}p2
 if [ $? -eq 0 ]; then
   ${MKFS_FAT} ${MMCDEV}p1  
-  ${MKFS_EXT} ${MMCDEV}p2  
+  ${MKFS_EXT} ${MMCDEV}p2
+  checkd_mk ${MOUNTPOINT}/${MMC}p1
+  checkd_mk ${MOUNTPOINT}/${MMC}p2
+  ${MOUNT} ${MMCDEV}p1 ${MOUNTPOINT}/${MMC}p1
+  ${MOUNT} ${MMCDEV}p2 ${MOUNTPOINT}/${MMC}p2
   block "${BLOCK}" "DONE" "***"
 else
   block "${BLOCK}" "FAIL" "***"
@@ -113,6 +117,7 @@ if [ $? -eq 0 ]; then
   ${TAR} -jxf ${ROOTFS}${WMTYPE}/${ROOTFSARCH} -C ${MOUNTPOINT}/${MMC}p2
   ${CPCMD} -Rav ${ROOTFS}${MODULES}/* ${MOUNTPOINT}/${MMC}p2/
   ${SYNC}
+  ${UMOUNT} ${MMCDEV}* -v
   block "${BLOCK}" "DONE" "***"
 else
   block "${BLOCK}" "FAIL" "***"
