@@ -3,6 +3,8 @@
 # date  : 31.08.2021
 # desc. : the script for including functions into a script to check files
 
+MOUNTPOINT="/bin/mountpoint"
+
 function checkz {
   if [ -z $1 ]; then
     error "empty string"
@@ -73,4 +75,27 @@ function sized {
   sized=($(ls $1))
   return ${#sized[@]}
 }
+
+function checkd_mountpoint {
+  ${MOUNTPOINT} -d $1 > /dev/null
+  _RET=$?
+  if [ ${_RET} -eq 0 ]; then
+    info "$1 \t[MOUNTED]"
+  else
+    info "$1 \t[NOT MOUNTED]"
+  fi
+  return ${_RET}
+}
+
+function checkb_mountpoint {
+  ${MOUNTPOINT} -x $1 > /dev/null
+  _RET=$?
+  if [ ${_RET} -eq 0 ]; then
+    info "$1 \t[MOUNTED]"
+  else
+    info "$1 \t[NOT MOUNTED]"
+  fi
+  return ${_RET}
+}
+
 

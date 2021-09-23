@@ -33,7 +33,8 @@ println
 checkx ${TAR}       && checkx ${SYNC}     && checkx ${RMCMD}  && \
 checkx ${DD}        && checkx ${CPCMD}    && checkx ${SFDISK} && \
 checkx ${MKFS_FAT}  && checkx ${MKFS_EXT} && checkb ${MMCDEV} && \
-checkx ${MMCU}      && checkx ${MOUNT}    && checkx ${UMOUNT}
+checkx ${MMCU}      && checkx ${MOUNT}    && checkx ${UMOUNT} && \
+checkx ${MOUNTPOINT}
 
 if [ $? -eq 1 ]; then
   fail
@@ -77,28 +78,28 @@ ${SFDISK} ${MMCDEV} << EOF
 EOF
 fi
 
-${SYNC} && checkb ${MMCDEV}p1 && checkb ${MMCDEV}p2
-if [ $? -eq 0 ]; then
-  ${MKFS_FAT} ${MMCDEV}p1  
+${SYNC} && checkd_mountpoint ${MEDIAD}/${MMC}p1 && checkd_mountpoint ${MEDIAD}/${MMC}p2
+if [ $? -eq 1 ]; then
+  ${MKFS_FAT} ${MMCDEV}p1
   ${MKFS_EXT} ${MMCDEV}p2
-  checkd_mk ${MOUNTPOINT}/${MMC}p1
-  checkd_mk ${MOUNTPOINT}/${MMC}p2
-  ${MOUNT} ${MMCDEV}p1 ${MOUNTPOINT}/${MMC}p1
-  ${MOUNT} ${MMCDEV}p2 ${MOUNTPOINT}/${MMC}p2
+  checkd_mk ${MEDIAD}/${MMC}p1
+  checkd_mk ${MEDIAD}/${MMC}p2
+  ${MOUNT} ${MMCDEV}p1 ${MEDIAD}/${MMC}p1
+  ${MOUNT} ${MMCDEV}p2 ${MEDIAD}/${MMC}p2
   block "${BLOCK}" "DONE" "***"
 else
-  block "${BLOCK}" "FAIL" "***"
-  exit 1;
+  block "${BLOCK}" "SKIP" "***"
 fi
 
 BLOCK="Copy Kernel & DTS to ${MMC}p1"
 block "${BLOCK}" "..." "***"
 
-checkd ${MOUNTPOINT}/${MMC}p1 && checkf ${DISTR}/linux/imx6qp-sabresd.dtb &&\
+checkd_mountpoint ${MEDIAD}/${MMC}p1 &&\
+checkf ${DISTR}/linux/imx6qp-sabresd.dtb &&\
 checkf ${DISTR}/linux/zImage
 if [ $? -eq 0 ]; then
-  ${RMCMD} -rfv ${MOUNTPOINT}/${MMC}p1/*
-  ${CPCMD} -v ${DISTR}/linux/* ${MOUNTPOINT}/${MMC}p1/
+  ${RMCMD} -rfv ${MEDIAD}/${MMC}p1/*
+  ${CPCMD} -v ${DISTR}/linux/* ${MEDIAD}/${MMC}p1/
   block "${BLOCK}" "DONE" "***"
 else
   block "${BLOCK}" "FAIL" "***"
@@ -108,14 +109,14 @@ fi
 BLOCK="Install rootfs to ${MMC}p2"
 block "${BLOCK}" "..." "***"
 
-checkd ${MOUNTPOINT}/${MMC}p2 && \
+checkd_mountpoint ${MEDIAD}/${MMC}p2 && \
 checkd ${ROOTFS}${MODULES}    && \
 checkf ${ROOTFS}${WMTYPE}/${ROOTFSARCH}
 if [ $? -eq 0 ]; then
   printf "Wait ${ROOTFS}${WMTYPE}/${ROOTFSARCH} unpacking..."
-  ${RMCMD} -rf ${MOUNTPOINT}/${MMC}p2/*
-  ${TAR} -jxf ${ROOTFS}${WMTYPE}/${ROOTFSARCH} -C ${MOUNTPOINT}/${MMC}p2
-  ${CPCMD} -Rav ${ROOTFS}${MODULES}/* ${MOUNTPOINT}/${MMC}p2/
+  ${RMCMD} -rf ${MEDIAD}/${MMC}p2/*
+  ${TAR} -jxf ${ROOTFS}${WMTYPE}/${ROOTFSARCH} -C ${MEDIAD}/${MMC}p2
+  ${CPCMD} -Rav ${ROOTFS}${MODULES}/* ${MEDIAD}/${MMC}p2/
   ${SYNC}
   ${UMOUNT} ${MMCDEV}* -v
   block "${BLOCK}" "DONE" "***"

@@ -7,7 +7,7 @@ UBOOT="${DISTR}/uboot-${RAM}-${CARD}/u-boot.img"
 ROOTFS="${DISTR}/rootfs-"
 MODULES="modules"
 WMTYPE="X11"
-MOUNTPOINT="/run/media"
+MEDIAD="/run/media"
 ROOTFSARCH="rootfs.tar.bz2"
 
 # CMD
