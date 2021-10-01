@@ -25,6 +25,7 @@ function checkfwd {
   checkd_mk ${CUR_FIRMWARE_D}
   checkd_mk ${OLD_FIRMWARE_D}
   checkd_mk ${FAIL_FIRMWARE_D}
+  checkd_mk ${INFO_FIRMWARE_D}
 }
 
 function clean_new {

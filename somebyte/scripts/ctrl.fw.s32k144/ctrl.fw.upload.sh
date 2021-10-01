@@ -43,7 +43,7 @@ REPEAT=0
 while [ $REPEAT -eq 0 ]; do
 
   FIRMWARE=
-  for i in ${FWPATTERNS[@]}; do
+  for i in "${FWPATTERNS[@]}"; do
      VAR=($(ls ${NEW_FIRMWARE_D} | grep -E $i))
      if [ ! -z ${VAR[0]} ]; then
        FIRMWARE=${VAR[0]}
@@ -61,6 +61,7 @@ while [ $REPEAT -eq 0 ]; do
   STARTADDR=${STARTADDR%".srec"}
   FIRMWARE=${NEW_FIRMWARE_D}/${FIRMWARE}
   info "Start firmware address: ${STARTADDR}"
+  echo ${STARTADDR} > ${STARTADDR_FL}
 
   checkx ${UPLOADER} && checkz ${TTYDEV} && checkc ${TTYDEV} && checkf ${FIRMWARE}
 

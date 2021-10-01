@@ -6,7 +6,7 @@
 MOUNTPOINT="/bin/mountpoint"
 
 function checkz {
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     error "empty string"
     return 1
   fi
@@ -15,7 +15,7 @@ function checkz {
 }
 
 function checkx {
-  if [ ! -x $1 ]; then
+  if [ ! -x "$1" ]; then
     error "$1 \t[NOT FOUND]"
     return 1
   fi
@@ -24,7 +24,7 @@ function checkx {
 }
 
 function checkb {
-  if [ ! -b $1 ]; then
+  if [ ! -b "$1" ]; then
     error "$1 \t[NOT FOUND]"
     return 1
   fi
@@ -33,7 +33,7 @@ function checkb {
 }
 
 function checkc {
-  if [ ! -c $1 ]; then
+  if [ ! -c "$1" ]; then
     error "$1 \t[NOT FOUND]"
     return 1
   fi
@@ -42,7 +42,7 @@ function checkc {
 }
 
 function checkf {
-  if [ ! -f $1 ]; then
+  if [ ! -f "$1" ]; then
     error "$1 \t[NOT FOUND]"
     return 1
   fi
@@ -51,7 +51,7 @@ function checkf {
 }
 
 function checkd {
-  if [ ! -d $1 ]; then
+  if [ ! -d "$1" ]; then
     error "$1 \t[NOT FOUND]"
     return 1
   fi
@@ -60,7 +60,7 @@ function checkd {
 }
 
 function checkd_mk {
-  if [ ! -d $1 ]; then
+  if [ ! -d "$1" ]; then
     info "$1 \t[NOT FOUND]"
     info "$1 \t[MAKING...]"
     mkdir -p $1
