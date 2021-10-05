@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file>images/exit.png</file>
+<file>images/thunderbolt.png</file>
+<file>images/camera.png</file>
+<file>images/earth-globe.png</file>
+<file>images/flight.png</file>
+<file>images/flight2.png</file>
+<file>images/internet.png</file>
+<file>images/wifi.png</file>
+<file>images/wifi2.png</file>
+<file>images/worldwide.png</file>
+</qresource>
+</RCC>
+
