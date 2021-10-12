@@ -13,14 +13,15 @@ SelectorMainWindow::SelectorMainWindow (QWidget *parent, Qt::WindowFlags flags)
 , m_showwinid ("%1/showwinid.sh %2")
 , m_hidewinid ("%1/hidewinid.sh %2")
 {
-  setWindowFlags (Qt::ToolTip |
-                  Qt::WindowStaysOnTopHint);
+  setWindowFlags (Qt::CustomizeWindowHint);
 
   QSettings settings (QCoreApplication::applicationDirPath() +
                         "/../etc/selector.conf",
                       QSettings::IniFormat);
 
   bool fcloseall = settings.value ("app/exit").toBool();
+  bool fhide     = settings.value ("app/hexit").toBool();
+  bool fontop    = settings.value ("app/ontop").toBool();
 
   int  scrw    = settings.value ("screen/width",  0).toInt();
   int  scrh    = settings.value ("screen/height", 0).toInt();
@@ -28,6 +29,7 @@ SelectorMainWindow::SelectorMainWindow (QWidget *parent, Qt::WindowFlags flags)
   bool vcenter = settings.value ("align/vcenter", 0).toBool();
   bool bottom  = settings.value ("align/bottom",  0).toBool();
   bool right   = settings.value ("align/right",   0).toBool();
+  bool vmenu   = settings.value ("align/vmenu",   0).toBool();
 
   int maxw = 512;
   int maxh = 512;
@@ -42,6 +44,17 @@ SelectorMainWindow::SelectorMainWindow (QWidget *parent, Qt::WindowFlags flags)
                              curh);
   m_exitbutton.setIcon (QIcon(":/images/exit.png"));
   m_exitbutton.setIconSize (QSize (curw-(int)(curw/4.0), curh-(int)(curh/4.0)));
+
+  if (fontop)
+    {
+      setWindowFlags (Qt::ToolTip |
+                      Qt::WindowStaysOnTopHint);
+    }
+
+  if (fhide)
+    {
+      m_exitbutton.hide();
+    }
 
   if (!fcloseall)
     {
@@ -73,10 +86,24 @@ SelectorMainWindow::SelectorMainWindow (QWidget *parent, Qt::WindowFlags flags)
 
       QObject::connect (pbutton, SIGNAL(released()), (SelectorMainWindow*) this, SLOT(start()));
 
-      m_grid->addWidget (pbutton, 0, i, Qt::AlignHCenter|Qt::AlignVCenter);
+      if (!vmenu)
+        {
+          m_grid->addWidget (pbutton, 0, i, 0);
+        }
+      else
+        {
+          m_grid->addWidget (pbutton, i, 0, 0);
+        }
     }
 
-  m_grid->addWidget (&m_exitbutton, 0, size + 1, Qt::AlignHCenter|Qt::AlignVCenter);
+  if (!vmenu)
+    {
+      m_grid->addWidget (&m_exitbutton, 0, size + 1, 0);
+    }
+  else
+    {
+      m_grid->addWidget (&m_exitbutton, size + 1, 0, 0);
+    }
 
   settings.endArray();
 
@@ -86,7 +113,7 @@ SelectorMainWindow::SelectorMainWindow (QWidget *parent, Qt::WindowFlags flags)
 
   if (bottom)
     {
-      y = (scrh == 0)?scrh:( scrh-height() );
+      y = (scrh == 0)?scrh:(scrh-height());
     }
 
   if (hcenter)

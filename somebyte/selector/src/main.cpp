@@ -7,7 +7,7 @@ int main (int argc, char** argv)
   SelectorMainWindow *mw = new SelectorMainWindow;
 
   QObject::connect (mw, SIGNAL(quit()), &app, SLOT(quit()));
-  mw->show();
+  mw->showNormal();
 
   int ret =  app.exec ();
   delete mw;
